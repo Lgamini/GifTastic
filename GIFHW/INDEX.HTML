@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Animal Buttons</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    body {background-color: powderblue;}
+    h1   {color: blue;}
+    p    {color: red;}
+    button {background-color:pink;}
+    button {font-size: 16px;}
+    button {padding: 10px 40px;}
+    </style>
+  
+ 
+</head>
+
+<body>
+    
+  <button data-animal="lion">lions</button>
+  <button data-animal="tiger">tigers</button>
+  <button data-animal="cheetah">cheetah</button>
+  <button data-animal="zebra">zebra</button>
+  <button data-animal="horses">horses</button>
+  <button data-animal="giraffe">giraffe</button>
+  <button data-animal="elephant">elephant</button>
+  <button data-animal="snake">snake</button>
+  <button data-animal="rhino">rhino</button>
+  <button data-animal="albino">albino</button>
+  <button data-animal="panther">panthers</button>
+  <button data-animal="bear">bear</button>
+  <button data-animal="cobra">cobra</button>
+  <button data-animal="gorilla">gorilla</button>
+  <button data-animal="python">python</button>
+
+  <div id="gifs-appear-here">
+        <div class="container", style="center">
+                <h1>Add an Animal</h1>
+            
+                <!-- This form will be where users input data about the movies -->
+                <form id="movie-form">
+                  <label for="movie-input">Search for a Animal</label>
+                  <input type="text" id="movie-input"><br>
+            
+                  <!-- This button will trigger our AJAX call -->
+                  <input id="find-movie" type="submit" value="Animal Search">
+                </form>
+            
+                <!-- We'll be dumping our JSON contents in here -->
+                <div id="movie-view"></div>
+            
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    
+    $("button").on("click", function() {
+     
+      var animal = $(this).attr("data-animal");
+
+     
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+     
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        
+        .then(function(response) {
+          console.log(queryURL);
+
+
+          console.log(response);
+          
+          var results = response.data;
+
+       
+          for (var i = 0; i < results.length; i++) {
+
+           
+            var animalDiv = $("<div>");
+
+           
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+    
+           
+            var animalImage = $("<img>");
+
+            
+            animalImage.attr("src", results[i].images.fixed_height.url);
+
+           // did not know were to placed stop comandm.but i think this code was the code
+           
+           animalDiv.append(p);
+            animalDiv.append(animalImage);
+
+           
+            $("#gifs-appear-here").prepend(animalDiv);
+            
+         }
+     });
+
+    });
+  </script>
+</body>
+</html>
